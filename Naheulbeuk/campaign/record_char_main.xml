@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_main">
+		<margins control="0,0,0,2" />
+		
+		
+		<sheetdata>
+		
+			<! ------------------sex / metier / origine------------------ >
+			<frame_char name="sexframe">
+				<bounds>15,0,60,45</bounds>
+			</frame_char>
+			<frame_char name="origineframe">
+				<bounds>75,0,200,45</bounds>
+			</frame_char>
+			<frame_char name="metierframe">
+				<bounds>275,0,-29,45</bounds>
+			</frame_char>
+			
+			<string_labeled name="Sex">
+				<anchored to="sexframe" position="insidetopleft" offset="15,10" height="20">
+					<right offset="-15" />
+				</anchored>
+				<labelres>char_label_gender</labelres>
+			</string_labeled>
+
+			<string_labeled name="Origine">
+				<anchored to="origineframe" position="insidetopleft" offset="15,10" height="20">
+					<right offset="-15" />
+				</anchored>
+				<labelres>char_label_race</labelres>
+			</string_labeled>
+			
+			<string_labeled name="Metier">
+				<anchored to="metierframe" position="insidetopleft" offset="15,10" height="20">
+					<right offset="-15" />
+				</anchored>
+				<labelres>char_label_metier</labelres>
+			</string_labeled>
+			
+			<! ----------------------- Level / XP ----------------------- >
+			
+			<frame_char name="levelxp">
+				<bounds>15,45,100,120</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="levelxp" position="insidetopleft" offset="13,20" width="40" height="20" />
+				<static textres="char_label_Level" />
+			</label_frametop>
+			<number_dropadd name="level" >
+				<anchored to="levelxp" position="insidetopleft" offset="58,20" width="20" height="20" />
+				<description field="Level" />
+			</number_dropadd>
+			<label_frametop>
+				<anchored to="levelxp" position="insidetopleft" offset="18,50" width="40" height="20" />
+				<static textres="char_label_XP" />
+			</label_frametop>
+			<number_dropadd name="xp" >
+				<anchored to="levelxp" position="insidetopleft" offset="58,50" width="20" height="20" />
+				<description field="XP" />
+			</number_dropadd>
+			<label_frametop>
+				<anchored to="levelxp" position="insidetopleft" offset="8,80" width="40" height="20" />
+				<static textres="char_label_Destin" />
+			</label_frametop>
+			<number_dropadd name="destin" >
+				<anchored to="levelxp" position="insidetopleft" offset="58,80" width="20" height="20" />
+				<description field="destin" />
+			</number_dropadd>
+ 
+			
+			
+			<! ----------------------- Competence ----------------------- >
+			
+			<frame_char name="Frame_Competence">
+				<bounds>15,165,235,190</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="Frame_Competence" position="insidetopleft" offset="45,10" width="150" height="20" />
+				<static textres="char_label_menu_Caracteristique" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Competence" position="insidetopleft" offset="21,30" width="110" height="20" />
+				<static textres="char_label_COU" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Competence" position="insidetopleft" offset="13,60" width="110" height="20" />
+				<static textres="char_label_INT" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Competence" position="insidetopleft" offset="19,90" width="110" height="20" />
+				<static textres="char_label_CHA" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Competence" position="insidetopleft" offset="25,120" width="110" height="20" />
+				<static text res="char_label_AD" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Competence" position="insidetopleft" offset="32,150" width="110" height="20" />
+				<static textres="char_label_FO" />
+			</label_frametop>
+			
+			<number_dropadd name="COU" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="130,30" width="20" height="20" />
+				<description field="point de courage" />
+			</number_dropadd>
+			<number_dropadd name="INT" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="130,60" width="20" height="20" />
+				<description field="point d'intelligence" />
+			</number_dropadd>
+			<number_dropadd name="CHA" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="130,90" width="20" height="20" />
+				<description field="Point de charisme" />
+			</number_dropadd>
+			<number_dropadd name="AD" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="130,120" width="20" height="20" />
+				<description field="Point d'agilite" />
+			</number_dropadd>
+			<number_dropadd name="FO" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="130,150" width="20" height="20" />
+				<description field="Point de force" />
+			</number_dropadd>
+			
+			
+			<number_dropadd name="COU_Modifier" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="170,30" width="20" height="20" />
+				<description field="point de courage modifier" />
+			</number_dropadd>
+			<number_dropadd name="INT_Modifier" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="170,60" width="20" height="20" />
+				<description field="point d'intelligence modifier" />
+			</number_dropadd>
+			<number_dropadd name="CHA_Modifier" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="170,90" width="20" height="20" />
+				<description field="Point de charisme modifier" />
+			</number_dropadd>
+			<number_dropadd name="AD_Modifier" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="170,120" width="20" height="20" />
+				<description field="Point d'agilite modifier" />
+			</number_dropadd>
+			<number_dropadd name="FO_Modifier" >
+				<anchored to="Frame_Competence" position="insidetopleft" offset="170,150" width="20" height="20" />
+				<description field="Point de force modifier" />
+			</number_dropadd>
+			
+			
+			
+			
+			
+			
+			<! ----------------------- richesse ----------------------- >
+			
+			
+			
+			<frame_char name="Frame_Richesses">
+				<bounds>15,355,235,215</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="60,10" width="100" height="20" />
+				<static textres="char_label_Richesse" />
+			</label_frametop>
+			
+			<label_frametop>
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="27,30" width="30" height="20" />
+				<static textres="char_label_Or" />
+			</label_frametop>
+			<number_dropadd name="or" >
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="60,30" width="20" height="20" />
+				<description field="or" />
+			</number_dropadd>
+			
+			<label_frametop>
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="97,30" width="50" height="20" />
+				<static textres="char_label_Argent" />
+			</label_frametop>
+			<number_dropadd name="Argent" >
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="150,30" width="20" height="20" />
+				<description field="Argent" />
+			</number_dropadd>
+			
+			<label_frametop>
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="10,60" width="50" height="20" />
+				<static textres="char_label_Thritil" />
+			</label_frametop>
+			<number_dropadd name="Thritil" >
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="60,60" width="20" height="20" />
+				<description field="Thritil" />
+			</number_dropadd>
+			
+			<label_frametop>
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="85,60" width="60" height="20" />
+				<static textres="char_label_Berylium" />
+			</label_frametop>
+			<number_dropadd name="Berylium" >
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="150,60" width="20" height="20" />
+				<description field="Berylium" />
+			</number_dropadd>
+			
+			<label_frametop>
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="60,90" width="100" height="20" />
+				<static textres="char_label_Autre" />
+			</label_frametop>
+			
+			<stringu name="Richesses_1">
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="20,105" width="190" height="20" />
+			</stringu>
+			<stringu name="Richesses_2">
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="20,125" width="190" height="20" />
+			</stringu>
+			<stringu name="Richesses_3">
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="20,145" width="190" height="20" />
+			</stringu>
+			<stringu name="Richesses_2">
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="20,165" width="190" height="20" />
+			</stringu>
+			<stringu name="Richesses_3">
+				<anchored to="Frame_Richesses" position="insidetopleft" offset="20,185" width="190" height="20" />
+			</stringu>
+			
+			
+			
+			<! ----------------------- competence ----------------------- >
+			
+			<frame_char name="Frame_liste_competence">
+				<bounds>250,45,-15,530</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="60,10" width="100" height="20" />
+				<static textres="char_label_competence" />
+			</label_frametop>
+			<stringu name="Competence_1">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,30" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_2">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,50" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_3">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,70" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_1">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,90" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_4">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,110" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_5">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,130" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_6">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,150" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_7">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,170" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_8">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,190" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_9">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,210" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_10">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,230" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_11">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,250" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_12">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,270" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_13">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,290" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_14">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,310" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_15">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,330" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_16">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,350" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_17">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,370" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_18">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,390" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_19">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,410" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_20">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,430" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_21">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,450" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_22">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,470" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+			<stringu name="Competence_23">
+				<anchored to="Frame_liste_competence" position="insidetopleft" offset="20,490" height="20">
+					<right offset="-15" />
+				</anchored>
+			</stringu>
+
+			
+		</sheetdata>
+	</windowclass>
+</root>

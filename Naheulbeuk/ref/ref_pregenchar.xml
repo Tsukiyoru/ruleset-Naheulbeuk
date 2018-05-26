@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="pregencharselect">
+		<frame>charselect</frame>
+		<placement>
+			<size width="590" height="372" />
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="590" height="372" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>pregencharselect_window_title</resource>
+			</windowtitlebar>
+			<anchor_title_charselect name="contentanchor" />
+
+			<windowlist name="list">
+				<anchored to="contentanchor" position="below">
+					<bottom parent="" offset="-30" />
+				</anchored>
+				<datasource>.</datasource>
+				<class>pregencharselect_entry</class>
+				<columns width="265" fillwidth="true" />
+				<readonly />
+			</windowlist>
+			<scrollbar_list />
+			
+			<resize_charselect name="resize_charselect" />
+			<close_charselect name="close_charselect" />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="pregencharselect_entry">
+		<frame>charselectentry</frame>
+		<sizelimits>
+			<maximum width="265" />
+		</sizelimits>
+		<script>
+			function onInit()
+				local node = getDatabaseNode();
+				if GameSystem.getPregenCharSelectDetail then
+					details.setValue(GameSystem.getPregenCharSelectDetail(node));
+				end
+				source.setValue(node.getModule());
+			end
+			
+			function dragCharacter(draginfo)
+				local node = getDatabaseNode();
+				draginfo.setType("shortcut");
+				draginfo.setShortcutData("pregencharsheet", node.getNodeName());
+				draginfo.setDescription(DB.getValue(node, "name", ""));
+			end
+			
+			function addCharacter()
+				local node = getDatabaseNode();
+				CampaignDataManager.addPregenChar(node); 
+			end
+		</script>
+		<script file="campaign/scripts/charselect_host_entry.lua" />
+		<sheetdata>
+			<genericcontrol name="portraitbase">
+				<bounds>10,10,72,72</bounds>
+				<disabled />
+				<icon>charlist_base</icon>
+			</genericcontrol>
+			<genericcontrol name="portrait">
+				<bounds>10,10,72,72</bounds>
+				<disabled />
+			</genericcontrol>
+
+			<stringfield name="name">
+				<anchored position="insidetopleft" offset="90,20">
+					<right offset="-40" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselecttitle</font>
+				<empty textres="library_recordtype_empty_charsheet" />
+				<disabled />
+			</stringfield>
+			<stringcontrol name="details">
+				<anchored to="name" position="belowleft">
+					<right />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselectbody</font>
+				<disabled />
+			</stringcontrol>
+			<stringcontrol name="source">
+				<anchored to="details" position="belowleft">
+					<right />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselecttitle</font>
+				<disabled />
+			</stringcontrol>
+
+			<buttoncontrol name="base">
+				<anchored position="insidetopleft">
+					<right />
+					<bottom parent="source" offset="12" />
+				</anchored>
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						window.dragCharacter(draginfo);
+						return true;
+					end
+				</script>
+			</buttoncontrol>
+
+			<buttoncontrol name="iadd">
+				<anchored to="base" position="insidebottomright" offset="10,10" width="20" height="20" />
+				<icon normal="button_add" pressed="button_add_down" />
+				<tooltip textres="tooltip_pregenchar_add" />
+				<script>
+					function onButtonPress()
+						window.addCharacter();
+					end
+				</script>
+				<gmvisibleonly />
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="pregencharsheet">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="400" height="200" />
+		</placement>
+		<sizelimits>
+			<minimum width="400" height="200" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_char</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>pregen_header</class>
+			</sub_record_header>
+
+			<frame_record_content name="contentframe" />
+
+			<subwindow_record name="main">
+				<class>pregen_main</class>
+				<activate />
+			</subwindow_record>
+			
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="pregen_main">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="pregen_header">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<link_record_header>
+				<class>pregencharsheet</class>
+			</link_record_header>
+			
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top offset="5" />
+					<right offset="-30" />
+				</anchored>
+			</genericcontrol>
+			<tokenfield name="token">
+				<anchored to="rightanchor" width="25" height="25">
+					<top offset="-2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<empty>token_empty</empty>
+				<readonly />
+			</tokenfield>
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_charsheet" />
+				<readonly />
+			</string_record_name>
+		</sheetdata>
+	</windowclass>
+</root>

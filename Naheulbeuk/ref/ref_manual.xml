@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Reference Manual sheets (non-editable) -->
+	<windowclass name="reference_manualtextwide">
+		<margins control="0,0,0,30" /> 
+		<sheetdata>
+			<linkcontrol_refmanualtopic name="open" />
+			<string_refmanualtopic_title name="name" />
+			
+			<subwindow name="content">
+				<anchored>
+					<top offset="30" />
+					<left />
+					<right />
+				</anchored>
+				<class>referencemanualpagecontent</class>
+				<fastinit />
+				<activate />
+			</subwindow>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="referencemanualpage">
+		<frame>referencepage</frame>
+		<placement>
+			<size width="650" height="650" />
+		</placement>
+		<sharable />
+		<sizelimits>
+			<minimum width="650" height="650" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script file="ref/scripts/ref_manualpage.lua" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>referencemanualpageheader</class>
+			</sub_record_header>
+
+			<frame_refmanualpage_content />
+			
+			<sub_ref_content name="content">
+				<class>referencemanualpagecontent</class>
+			</sub_ref_content>
+			<scrollbar_ref_content />
+			
+			<refmanualpage_page_top />
+			<refmanualpage_page_prev />
+			<refmanualpage_page_next />
+			
+			<resize_referencepage />
+			<close_referencepage />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="referencemanualpageheader">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<link_record_header>
+				<class>referencemanualpage</class>
+			</link_record_header>
+			<string_record_name_ref name="name" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="referencemanualpagecontent">
+		<sheetdata>
+			<simpleft name="text">
+				<anchored>
+					<top offset="5" />
+					<left />
+					<right />
+				</anchored>
+				<readonly />
+				<script>
+					function onInit()
+						if isEmpty() then
+							setVisible(false);
+						end
+					end
+					function onLinkActivated(sClass, sRecord)
+						local wTop = UtilityManager.getTopWindow(window);
+						wTop.activateLink(sClass, sRecord);
+					end
+				</script>
+			</simpleft>
+			
+			<list_referencemanualpage_blocks name="blocks">
+				<anchored>
+					<top parent="text" anchor="bottom" />
+					<left  />
+					<right />
+				</anchored>
+				<script file="ref/scripts/ref_blocklayoutmanager.lua"/>
+			</list_referencemanualpage_blocks>
+
+			<genericcontrol name="footer">
+				<anchored height="26">
+					<top parent="blocks" anchor="bottom" />
+					<left />
+					<right />
+				</anchored>
+				<icon>footer_wide</icon>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="referencemanualtextblock">
+		<margins control="0,0,0,10" /> 
+		<sheetdata>
+		</sheetdata>
+	</windowclass>	
+
+	<windowclass name="referencemanualarticle">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<hlink name="listlink" />
+			<hs name="keywords" />
+
+			<stringfield name="name">
+				<bounds>0,2,-1,20</bounds>
+				<font>reference-r</font>
+				<underlineoffset>0</underlineoffset>
+				<nodrag />
+				<nodragselect />
+				<static />
+				<script>
+					function onHover(bOnControl)
+						setUnderline(bOnControl);
+					end
+					
+					function onClickDown(button, x, y)
+						return true;
+					end
+
+					function onClickRelease(button, x, y)
+						activate();
+						return true;
+					end
+					
+					function activate()
+						local sClass, sRecord = window.listlink.getValue();
+						local wTop = window;
+						while wTop.windowlist and wTop.windowlist.window do
+							wTop = wTop.windowlist.window;
+						end
+						wTop.activateLink(sClass, sRecord);
+					end
+				</script>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="referencemanualsection">
+		<script>
+			function showFullHeaders(show_flag)
+				name.setVisible(show_flag);
+				spacer.setVisible(show_flag);
+			end
+		</script>
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			
+			<string_refmanualsection_title name="name" />
+			<spacer_column name="spacer">
+				<anchored>
+					<top offset="3" />
+				</anchored>
+			</spacer_column>
+			
+			<windowlist name="article">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left offset="20" />
+					<right offset="-20" />
+				</anchored>
+				<datasource>.refpages</datasource>
+				<class>referencemanualarticle</class>
+				<noscroll />
+				<invisible />
+				<altfilter>filter_section</altfilter>
+				<readonly />
+				<script file="ref/scripts/ref_list.lua" />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="referencemanualchapter">
+		<script>
+			function showFullHeaders(show_flag)
+				name.setVisible(show_flag);
+				spacer.setVisible(show_flag);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="columnanchor">
+				<anchored position="insidetop" offset="0,0" height="0"/>
+				<disabled />
+				<invisible />
+			</genericcontrol>
+			
+			<string_refmanualchapter_title name="name" />
+			<spacer_column name="spacer">
+				<anchored height="5" />
+			</spacer_column>
+			
+			<windowlist name="section">
+				<anchored>
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="0" />
+					<left />
+					<right />
+				</anchored>
+				<datasource>.subchapters</datasource>
+				<class>referencemanualsection</class>
+				<noscroll />
+				<invisible />
+				<altfilter>filter_section</altfilter>
+				<readonly />
+				<script file="ref/scripts/ref_list.lua" />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="reference_manual">
+		<frame>utilitybox3</frame>
+		<placement>
+			<size width="950" height="650" />
+		</placement>
+		<sizelimits>
+			<minimum width="950" height="650" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<nodelete />
+		<script file="ref/scripts/ref_manual.lua" />
+		<sheetdata>
+			<windowtitlebar name="reftitle">
+				<field>name</field>
+				<resource>ref_window_title</resource>
+			</windowtitlebar>
+			<anchor_reftitle name="contentanchor" />
+
+			<list_refmanual_sections name="sectionlist" />
+			<scrollbar>
+				<anchored to="sectionlist" offset="-5,-10" />
+				<target>sectionlist</target>
+			</scrollbar>
+
+			<filter_refmanual name="filter_section" />
+			<button_refmanual_expand />
+			<button_refmanual_collapse />
+
+			<list_refmanual_pages name="pagelist" />
+			<scrollbar>
+				<anchored to="pagelist" offset="-5,-10" />
+				<target>pagelist</target>
+			</scrollbar>
+
+			<refmanual_page_top />
+			<refmanual_page_prev />
+			<refmanual_page_next />
+			
+			<resize_utilitybox3 />
+			<close_utilitybox3 />
+		</sheetdata>
+	</windowclass>
+</root>

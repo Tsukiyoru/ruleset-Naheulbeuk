@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="tokenbag">
+		<frame>tokenbag</frame>
+		<placement>
+			<size width="400" height="400" />
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum width="400" height="400" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>tokenbag_window_title</resource>
+			</windowtitlebar>
+			<anchor_title_tokenbag name="contentanchor" />
+
+			<filter_tokens name="filter" />
+			<button_tokens_zoomout />
+			<button_tokens_zoomin />
+			
+			<tokenbag_tokens name="tokens" />
+			<scrollbar_tokens />
+			
+			<button_tokens_host />
+			<button_tokens_shared />
+			<button_tokens_modules />
+			<button_tokens_store />			
+			
+			<resize_tokenbag />
+			<helper_tokenbag />
+			<close_tokenbag />
+		</sheetdata>
+	</windowclass>
+</root>

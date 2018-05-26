@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charselect_host_entry">
+		<frame>charselectentry</frame>
+		<sizelimits>
+			<maximum width="265" />
+		</sizelimits>
+		<script file="campaign/scripts/charselect_host_entry.lua" />
+		<sheetdata>
+			<genericcontrol name="portraitbase">
+				<bounds>10,10,72,72</bounds>
+				<disabled />
+				<icon>charlist_base</icon>
+			</genericcontrol>
+			<genericcontrol name="portrait">
+				<bounds>10,10,72,72</bounds>
+				<disabled />
+			</genericcontrol>
+
+			<stringfield name="name">
+				<anchored position="insidetopleft" offset="90,20">
+					<right offset="-40" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselecttitle</font>
+				<empty textres="library_recordtype_empty_charsheet" />
+				<disabled />
+			</stringfield>
+			<stringcontrol name="details">
+				<anchored to="name" position="belowleft">
+					<right />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselectbody</font>
+				<disabled />
+			</stringcontrol>
+			<stringcontrol name="owner">
+				<anchored to="details" position="belowleft">
+					<right />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselecttitle</font>
+				<disabled />
+			</stringcontrol>
+
+			<buttoncontrol name="base">
+				<anchored position="insidetopleft">
+					<right />
+					<bottom parent="owner" offset="12" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						window.openCharacter();
+						return true;
+					end
+
+					function onDragStart(button, x, y, draginfo)
+						window.dragCharacter(draginfo);
+						return true;
+					end
+				</script>
+			</buttoncontrol>
+
+			<button_idelete name="idelete">
+				<bounds>-30,10,20,20</bounds>
+			</button_idelete>
+			<buttoncontrol name="iexport">
+				<anchored to="base" position="insidebottomright" offset="10,10" width="20" height="20" />
+				<icon normal="button_export" pressed="button_export_down" />
+				<tooltip textres="charselect_tooltip_export" />
+				<script>
+					function onButtonPress()
+						CampaignDataManager.exportChar(window.getDatabaseNode());
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charselect_host">
+		<frame>charselect</frame>
+		<placement>
+			<size width="590" height="372" />
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="590" height="372" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>charselect_window_title</resource>
+			</windowtitlebar>
+			<anchor_title_charselect name="contentanchor" />
+
+			<windowlist name="list">
+				<anchored to="contentanchor" position="below">
+					<bottom parent="" offset="-55" />
+				</anchored>
+				<datasource>.</datasource>
+				<class>charselect_host_entry</class>
+				<allowcreate />
+				<allowdelete />
+				<columns width="265" fillwidth="true" />
+				<script>
+					function onListChanged()
+						update();
+					end
+
+					function update()
+						local bEditMode = (window.list_iedit.getValue() == 1);
+						for _,w in pairs(getWindows()) do
+							w.idelete.setVisibility(bEditMode);
+							w.iexport.setVisible(bEditMode);
+						end
+					end
+					
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("shortcut") then
+							return CampaignDataManager.handleDrop("charsheet", draginfo);
+						end
+					end
+				</script>
+			</windowlist>
+			<scrollbar_list />
+			
+			<button_iedit name="list_iedit">
+				<anchored>
+					<left anchor="center" offset="-10" />
+					<bottom offset="-27" />
+				</anchored>
+				<gmvisibleonly />
+				<script>
+					function onValueChanged()
+						local bEdit = (getValue() == 1);
+						window.list_iimport.setVisible(bEdit);
+						window.list_iadd.setVisible(bEdit);
+						window.list.update();
+					end
+				</script>
+			</button_iedit>
+			<button_iadd name="list_iadd">
+				<anchored to="list_iedit" position="lefthigh" offset="10,0" />
+				<class>charsheet</class>
+				<script file="campaign/scripts/campaign_button_new.lua" />
+			</button_iadd>
+			<button_import name="list_iimport">
+				<anchored to="list_iedit" position="righthigh" offset="10,0" width="20" height="20" />
+				<invisible />
+			</button_import>
+
+			<resize_charselect name="resize_charselect" />
+			<helper_charselect name="help_charselect" />
+			<close_charselect name="close_charselect" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charselect_client_entry">
+		<margins control="0,0,0,10" />
+		<frame>charselectentry</frame>
+		<sizelimits>
+			<maximum width="265" />
+		</sizelimits>
+		<script file="campaign/scripts/charselect_client_entry.lua" />
+		<sheetdata>
+			<genericcontrol name="portraitbase">
+				<bounds>10,10,72,72</bounds>
+				<icon>charlist_base</icon>
+				<disabled />
+			</genericcontrol>
+			<genericcontrol name="portrait">
+				<bounds>10,10,72,72</bounds>
+				<disabled />
+			</genericcontrol>
+			<portraitselectioncontrol name="localportrait">
+				<bounds>10,10,72,72</bounds>
+				<base>charlist_base</base>
+				<mask>charlist_mask</mask>
+				<invisible />
+				<script>
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("portraitselection") then
+							CampaignDataManager.setCharPortrait(window.localdatabasenode, draginfo.getStringData());
+							return true;
+						end
+					end
+				</script>
+			</portraitselectioncontrol>
+			
+			<genericcontrol name="error">
+				<bounds>-65,15,56,56</bounds>
+				<icon>error</icon>
+				<disabled />
+				<invisible />
+			</genericcontrol>
+
+			<stringcontrol name="name">
+				<anchored position="insidetopleft" offset="90,20">
+					<right offset="-40" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselecttitle</font>
+				<empty textres="library_recordtype_empty_charsheet" />
+				<disabled />
+			</stringcontrol>
+			<stringcontrol name="details">
+				<anchored to="name" position="belowleft">
+					<right />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselectbody</font>
+				<disabled />
+			</stringcontrol>
+			<stringcontrol name="campaign">
+				<anchored to="details" position="belowleft">
+					<right />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<font>charselecttitle</font>
+				<disabled />
+			</stringcontrol>
+
+			<buttoncontrol name="base">
+				<anchored position="insidetopleft">
+					<right />
+					<bottom parent="campaign" offset="12" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						window.openCharacter();
+						return true;
+					end
+				</script>
+			</buttoncontrol>
+
+			<button_idelete name="idelete">
+				<anchored position="insidetopright" offset="10,10" />
+				<tooltip textres="charselect_tooltip_delete" />
+				<script>
+					function onButtonPress()
+						if getValue() == 0 then
+							window.deleteCharacter();
+						end
+					end
+				</script>
+			</button_idelete>
+			<buttoncontrol name="iexport">
+				<anchored to="base" position="insidebottomright" offset="10,10" width="20" height="20" />
+				<icon normal="button_export" pressed="button_export_down" />
+				<tooltip textres="charselect_tooltip_export" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						CampaignDataManager.exportChar(window.localdatabasenode);
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charselect_client">
+		<frame>charselect</frame>
+		<placement>
+			<size width="590" height="372" />
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="590" height="372" />
+			<dynamic />
+		</sizelimits>
+		<script>
+			function onInit()
+				setMode(User.isLocal());
+			end
+			
+			function setMode(bLocal)
+				if title_main then
+					title_main.setVisible(not bLocal);
+					contentanchor_main.setVisible(not bLocal);
+				end
+				list.setVisible(not bLocal);
+				if not User.isLocal() then
+					button_liveadd.setVisible(not bLocal);
+					button_import.setVisible(not bLocal);
+				end
+				
+				if title_local then
+					title_local.setVisible(bLocal);
+					contentanchor_local.setVisible(bLocal);
+				end
+				list_local.setVisible(bLocal);
+				if User.isLocal() then
+					button_localedit.setValue(0);
+					button_localedit.setVisible(bLocal);
+				else
+					button_localedit.setVisible(bLocal);
+					button_server.setVisible(bLocal);
+				end
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar name="title_main">
+				<resource>charselect_window_title</resource>
+			</windowtitlebar>
+			<windowtitlebar name="title_local">
+				<resource>charselect_window_titlelocal</resource>
+			</windowtitlebar>
+			<anchor_title_charselect name="contentanchor_main">
+				<anchored>
+					<top parent="title_main" />
+				</anchored>
+			</anchor_title_charselect>
+			<anchor_title_charselect name="contentanchor_local">
+				<anchored>
+					<top parent="title_local" />
+				</anchored>
+			</anchor_title_charselect>
+
+			<windowlist name="list">
+				<anchored to="contentanchor_main" position="below">
+					<bottom parent="" offset="-55" />
+				</anchored>
+				<class>charselect_client_entry</class>
+				<columns width="265" fillwidth="true" />
+				<skipempty />
+				<script file="campaign/scripts/charselect_client.lua" />
+			</windowlist>
+			<scrollbar_list />
+			<windowlist name="list_local">
+				<anchored to="contentanchor_local" position="below">
+					<bottom parent="" offset="-55" />
+				</anchored>
+				<class>charselect_client_entry</class>
+				<columns width="265" fillwidth="true" />
+				<skipempty />
+				<script file="campaign/scripts/charselect_clientlocal.lua" />
+			</windowlist>
+			<scrollbar>
+				<anchored to="list_local" />
+				<target>list_local</target>
+			</scrollbar>
+			
+			<button_iedit name="button_localedit">
+				<anchored>
+					<left anchor="center" offset="-10" />
+					<bottom offset="-27" />
+				</anchored>
+				<invisible />
+				<script>
+					function onValueChanged()
+						local bEdit = (getValue() == 1);
+						window.button_localadd.setVisible(bEdit);
+						window.button_localimport.setVisible(bEdit);
+						window.list_local.update();
+					end
+				</script>
+			</button_iedit>
+			<button_iadd name="button_localadd">
+				<anchored to="button_localedit" position="lefthigh" offset="10,0" width="20" height="20" />
+				<script file="campaign/scripts/charselect_add.lua" />
+			</button_iadd>
+			<button_import name="button_localimport">
+				<anchored to="button_localedit" position="righthigh" offset="10,0" width="20" height="20" />
+				<invisible />
+			</button_import>
+			<button_iadd name="button_liveadd">
+				<anchored>
+					<right anchor="center" offset="-5" />
+					<bottom offset="-27" />
+				</anchored>
+				<script file="campaign/scripts/charselect_add.lua" />
+			</button_iadd>
+			<button_import name="button_import">
+				<anchored>
+					<left anchor="center" offset="5" />
+					<bottom offset="-27" />
+				</anchored>
+				<invisible />
+			</button_import>
+			<buttoncontrol name="button_server">
+				<anchored width="20" height="20">
+					<left anchor="center" offset="-10" />
+					<bottom offset="-27" />
+				</anchored>
+				<icon normal="button_export" pressed="button_export_down" />
+				<tooltip textres="charselect_tooltip_server" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.setMode(false);
+					end
+				</script>
+			</buttoncontrol>
+
+			<resize_charselect name="resize_charselect" />
+			<helper_charselect name="help_charselect" />
+			<close_charselect name="close_charselect" />
+		</sheetdata>
+	</windowclass>
+</root>

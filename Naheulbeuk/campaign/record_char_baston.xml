@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_baston">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<! ----------------------- Energie Vitale / Astrale / attaque / def  ----------------------- >
+			<frame_char name="Frame_Vie_Magie">
+				<bounds>115,45,135,170</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="13,10" width="100" height="20" />
+				<static textres="char_label_Vie_Magie" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="10,30" width="20" height="20" />
+				<static textres="char_label_energie_vitale" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="10,60" width="20" height="20" />
+				<static textres="char_label_energie_astrale" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="67,30" width="20" height="20" />
+				<static textres="char_label_point_vitale" />
+			</label_frametop>
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="67,60" width="20" height="20" />
+				<static textres="char_label_point_astrale" />
+			</label_frametop>
+			
+			<number_dropadd name="EV" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="37,30" width="20" height="20" />
+				<description field="energie vitale" />
+			</number_dropadd>
+			<number_dropadd name="EA" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="37,60" width="20" height="20" />
+				<description field="energie astrale" />
+			</number_dropadd>
+			<number_dropadd name="PV" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="96,30" width="20" height="20" />
+				<description field="point de vie" />
+			</number_dropadd>
+			<number_dropadd name="PA" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="96,60" width="20" height="20" />
+				<description field="point astraux" />
+			</number_dropadd>
+			
+			
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="65,80" width="60" height="20" />
+				<static textres="char_label_menu_at_prd" />
+			</label_frametop>
+			
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="11,100" width="50" height="20" />
+				<static textres="char_label_AT" />
+			</label_frametop>
+			<number_dropadd name="AT" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="68,100" width="20" height="20" />
+				<description field="Attaque" />
+			</number_dropadd>
+			<number_dropadd name="AT_Modifier" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="100,100" width="20" height="20" />
+				<description field="Attaque_Modifier" />
+			</number_dropadd>
+			
+			<label_frametop>
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="13,130" width="50" height="20" />
+				<static textres="char_label_PRD" />
+			</label_frametop>
+			<number_dropadd name="PRD" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="68,130" width="20" height="20" />
+				<description field="Parade" />
+			</number_dropadd>
+			<number_dropadd name="PRD_Modifier" >
+				<anchored to="Frame_Vie_Magie" position="insidetopleft" offset="100,130" width="20" height="20" />
+				<description field="Parade_Modifier" />
+			</number_dropadd>
+			
+			
+		</sheetdata>
+	</windowclass>
+</root>

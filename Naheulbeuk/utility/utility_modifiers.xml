@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="modifiers">
+		<frame>utilitybox3</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<dynamic />
+			<minimum width="350" height="350" />
+		</sizelimits>
+		<playercontrol />
+		<nodelete />
+		<tooltip textres="library_recordtype_label_modifier" />
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>library_recordtype_label_modifier</resource>
+			</windowtitlebar>
+			<anchor_title_utilitybox3 name="contentanchor" />
+			
+			<list_modifiers name="list" />
+			<scrollbar_list />
+			
+			<anchor_campaign2 />
+			<button_iedit_campaign />
+			<button_iadd_utility />
+			<filter_utility />
+			
+			<resize_utilitybox3 />
+			<helper_modifiers />
+			<close_utilitybox3 />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="modifiersmall">
+		<margins control="0,0,0,2" />
+		<script>
+			function actionDrag(draginfo)
+				if not label.isEmpty() then
+					draginfo.setType("number");
+					draginfo.setDescription(label.getValue());
+					draginfo.setStringData(label.getValue());
+					draginfo.setNumberData(bonus.getValue());
+				end
+				return true;
+			end
+			
+			function action()
+				ModifierStack.addSlot(label.getValue(), bonus.getValue());
+				return true;
+			end
+
+			function onDrop(x, y, draginfo)
+				return windowlist.onDrop(x, y, draginfo);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top />
+					<right />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+			<buttonfield name="isgmonly">
+				<anchored width="20" height="20">
+					<top offset="3" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<gmvisibleonly />
+				<state icon="visibilityon" tooltipres="visibilityon" />
+				<state icon="visibilityoff" tooltipres="visibilityoff" />
+			</buttonfield>
+			<basicnumber name="bonus">
+				<anchored width="30" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<displaysign />
+				<tabtarget prev="label" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.actionDrag(draginfo);
+					end
+
+					function onDoubleClick(x, y)
+						return window.action();
+					end
+
+					function onGainFocus()
+						window.setFrame("rowshade");
+					end
+
+					function onLoseFocus()
+						window.setFrame(nil);
+					end
+				</script>
+			</basicnumber>
+			
+			<buttoncontrol>
+				<anchored position="insidetopleft" offset="2,2" width="20" height="20" />
+				<icon normal="button_action_modifier" pressed="button_action_modifier_down" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.actionDrag(draginfo);
+					end
+
+					function onButtonPress(x, y)
+						return window.action();
+					end
+				</script>
+			</buttoncontrol>
+			<string_textlistitem name="label">
+				<anchored position="insidetopleft" offset="27,3" height="20">
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<tabtarget next="bonus" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.actionDrag(draginfo);
+					end
+
+					function onDoubleClick(x, y)
+						return window.action();
+					end
+				</script>
+			</string_textlistitem>
+		</sheetdata>
+	</windowclass>
+</root>

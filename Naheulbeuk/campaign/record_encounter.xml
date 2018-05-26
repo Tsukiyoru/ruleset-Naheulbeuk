@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="battle">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="400" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_combat</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<script file="campaign/scripts/encounter.lua" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>battle_header</class>
+			</sub_record_header>
+
+			<frame_record_content name="npcframe">
+				<anchored>
+					<bottom offset="-57" />
+				</anchored>
+			</frame_record_content>
+			
+			<label name="label_token">
+				<anchored to="npcframe" position="insidetopleft" offset="-5,-5" width="40" />
+				<static textres="battle_label_token" />
+				<center />
+			</label>
+			<label name="label_count">
+				<anchored to="npcframe" position="insidetopleft" offset="35,-5" width="25" />
+				<static>#</static>
+				<center />
+			</label>
+			<label name="label_name">
+				<anchored to="npcframe">
+					<top offset="-5" />
+					<left offset="105" />
+					<right offset="-50" />
+				</anchored>
+				<static textres="battle_label_name" />
+				<center />
+			</label>
+
+			<windowlist name="npcs">
+				<anchored to="npcframe" position="over">
+					<top offset="20" />
+					<right offset="-5" />
+				</anchored>
+				<child></child>
+				<child><backcolor>1A40301E</backcolor></child>
+				<datasource>.npclist</datasource>
+				<class>battle_npc</class>
+				<allowdelete />
+				<sortby><field>name</field></sortby>
+				<empty font="list-empty" gmtextres="battle_emptylist" />
+				<script file="campaign/scripts/encounter_npclist.lua" />
+			</windowlist>
+			<scrollbar>
+				<anchored to="npcs" />
+				<target>npcs</target>
+			</scrollbar>
+			<button_iedit name="npcs_iedit">
+				<anchored to="npcframe" position="belowright" offset="5,20" />
+				<target>npcs</target>
+			</button_iedit>
+			
+			<buttoncontrol name="addct">
+				<bounds>22,-40,33,26</bounds>
+				<icon normal="button_arrowdown" pressed="button_arrowdown_down" />
+				<tooltip textres="battle_tooltip_addct" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						if User.isHost() then
+							for _,vNPC in pairs(window.npcs.getWindows()) do
+								for _,vMapLink in pairs(vNPC.maplinks.getWindows()) do
+									vMapLink.deleteLink();
+								end
+							end
+							
+							CombatManager.addBattle(window.getDatabaseNode());
+						end
+					end
+				</script>
+			</buttoncontrol>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="battle_header">
+		<margins control="0,0,0,7" />
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>battle</class>
+			</link_record_header>
+			
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name name="name">
+				<empty textres="library_recordtype_empty_battle" />
+			</string_record_name>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="battle_npc">
+		<margins control="0,0,0,3" />
+		<script file="campaign/scripts/encounter_npc.lua" />
+		<sheetdata>
+			<genericcontrol name="leftanchor">
+				<anchored position="insidetopleft" height="30" width="0" />
+			</genericcontrol>
+			<tokenfield name="token">
+				<anchored to="leftanchor" width="24" height="24">
+					<top offset="3" />
+					<left anchor="right" relation="relative" offset="3" />
+				</anchored>
+				<empty>token_empty</empty>
+				<script>
+					function onValueChanged()
+						window.synchTokenView();
+					end
+				</script>
+			</tokenfield>
+			<basicnumber name="count">
+				<anchored to="leftanchor" width="25" height="20">
+					<top offset="5" />
+					<left anchor="right" relation="relative" offset="8" />
+				</anchored>
+				<default>1</default>
+				<min>1</min>
+				<script>
+					function onValueChanged()
+						window.synchToCount();
+					end
+				</script>
+			</basicnumber>
+			
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top />
+					<right />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored>
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+			<linkfield name="link">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</linkfield>
+			<button_faction	name="faction">
+				<anchored>
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_faction>
+			
+			<stringu name="name">
+				<anchored>
+					<top offset="5" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="10" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</stringu>
+
+			<label name="maplinks_label">
+				<anchored>
+					<top parent="name" anchor="bottom" offset="5" />
+					<left offset="5" />
+				</anchored>
+				<static textres="battle_label_placement" />
+			</label>
+			<windowlist name="maplinks">
+				<anchored>
+					<top parent="name" anchor="bottom" relation="relative" offset="0" />
+					<left parent="maplinks_label" anchor="right" offset="5" />
+					<right offset="-5" />
+				</anchored>			
+				<datasource>.maplink</datasource>
+				<class>battle_npcmaplink</class>
+				<columns width="27" fillwidth="true" />
+				<skipempty />
+				<noscroll />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="battle_npcmaplink">
+		<margins control="0,0,2,2" />
+		<script file="campaign/scripts/encounter_maplink.lua" />
+		<sheetdata>
+			<hn name="imagex" />
+			<hn name="imagey" />
+			<hnc name="imageid" />
+			<hlink name="imageref" />
+
+			<tokencontrol name="token">
+				<bounds>2,2,23,23</bounds>
+				<script>
+					function onDragStart(draginfo)
+						local _,sRecord = DB.getValue(window.getDatabaseNode(), "...link");
+						local nSpace,_ = CombatManager.getNPCSpaceReach(DB.findNode(sRecord));
+						TokenManager.setDragTokenUnits(nSpace);
+					end
+					
+					function onDragEnd(draginfo)
+						TokenManager.endDragTokenWithUnits();
+						
+						local _, dropref = draginfo.getTokenData();
+						window.setLink(dropref);
+						return true;
+					end
+				</script>
+			</tokencontrol>
+			<buttoncontrol name="linked">
+				<bounds>2,2,23,23</bounds>
+				<invisible />
+				<icon normal="poll_check" pressed="poll_check" />
+				<script>
+					function onButtonPress()
+						if User.isHost() then
+							window.clearLink();
+						end
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+</root>
